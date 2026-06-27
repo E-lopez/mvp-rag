@@ -51,11 +51,11 @@ def run_rag_eval(
         logger.exception("RAG eval: failed to parse judge response.")
         return
 
-    print(
+    logger.info(
         "RAG eval — context_relevance=%.1f groundedness=%.1f answer_relevance=%.1f | verdict: %s",
         verdict.get("context_relevance", {}).get("score", -1),
         verdict.get("groundedness", {}).get("score", -1),
         verdict.get("answer_relevance", {}).get("score", -1),
         verdict.get("triad_summary_verdict", ""),
     )
-    print("RAG eval full verdict: %s", json.dumps(verdict))
+    logger.debug("RAG eval full verdict: %s", json.dumps(verdict))
