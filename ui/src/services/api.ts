@@ -1,5 +1,3 @@
-const API_BASE = import.meta.env.VITE_API_BASE ?? 'http://localhost:8000'
-
 export interface QueryResponse {
   answer: string
   sources: string[]
@@ -11,15 +9,24 @@ export interface IndexResponse {
 }
 
 export async function createIndex(): Promise<IndexResponse> {
-  const res = await fetch(`${API_BASE}/v1/create-index`, { method: 'POST' })
+  const health = await fetch(`/health`, { method: 'GET' })
+  console.log("REsponse from createIndex:", health);
+  const res = await fetch('/v1/create-index', { 
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
   if (!res.ok) throw new Error('Failed to initialize knowledge base.')
   return res.json() as Promise<IndexResponse>
 }
 
 export async function queryKnowledgeBase(question: string): Promise<QueryResponse> {
-  const res = await fetch(`${API_BASE}/v1/query`, {
+  const res = await fetch('/v1/query', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json'
+    },
     body: JSON.stringify({ question }),
   })
   if (!res.ok) {
