@@ -1,12 +1,13 @@
 import json
 import logging
 
+from botocore.exceptions import BotoCoreError, ClientError
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 from app.prompts.synthesis import SYSTEM_SYNTHESIS_TEMPLATE
 from app.dependencies.bedrock import get_bedrock_client
-from app.dependencies.chroma import get_chroma_client
+from app.dependencies.chroma import ChromaCollectionDep, get_chroma_client
 from app.functions.embeddings import embed_text
 from app.services.guardrails import run_query_guardrails
 
@@ -32,28 +33,31 @@ def _synthesize(question: str, context_chunks: list[str]) -> str:
     context = "\n\n".join(context_chunks)
     system_instruction = SYSTEM_SYNTHESIS_TEMPLATE.format(context=context)
     
-    response = client.invoke_model(
-        modelId=_SYNTHESIS_MODEL_ID,
-        body=json.dumps({
-            "anthropic_version": "bedrock-2023-05-31",
-            "max_tokens": 1024,
-            "system": system_instruction,
-            "messages": [
-                {
-                    "role": "user",
-                    "content": f"Question: {question}"
-                }
-            ],
-        }),
-        contentType="application/json",
-        accept="application/json",
-    )
+    try:
+        response = client.invoke_model(
+            modelId=_SYNTHESIS_MODEL_ID,
+            body=json.dumps({
+                "anthropic_version": "bedrock-2023-05-31",
+                "max_tokens": 1024,
+                "system": system_instruction,
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": f"Question: {question}"
+                    }
+                ],
+            }),
+            contentType="application/json",
+            accept="application/json",
+        )
+    except (BotoCoreError, ClientError) as e:
+        raise HTTPException(status_code=502, detail="Upstream model call failed.") from e
     result = json.loads(response["body"].read())
     return result["content"][0]["text"]
 
 
 @router.post("/query", response_model=QueryResponse)
-def query(request: QueryRequest):
+def query(request: QueryRequest, collection: ChromaCollectionDep):
     if not run_query_guardrails(request.question):
         raise HTTPException(status_code=403, detail="Query contains prohibited content.")
 
@@ -66,7 +70,8 @@ def query(request: QueryRequest):
     query_embedding = embed_text(request.question)
     results = collection.query(query_embeddings=[query_embedding], n_results=_TOP_K)
 
-    assert results["documents"] and results["metadatas"] is not None
+    if not results["documents"] or not results["metadatas"]:
+        raise HTTPException(status_code=404, detail="No matching results found.")
 
     context_chunks = results["documents"][0]
     sources = [m["title"] for m in results["metadatas"][0]] 

@@ -2,10 +2,11 @@ import json
 import logging
 import pathlib
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
+from chromadb.api import ClientAPI
 
-from app.dependencies.chroma import get_chroma_client
+from app.dependencies.chroma import ChromaCollectionDep, get_chroma_client
 from app.functions.embeddings import embed_text
 
 router = APIRouter()
@@ -21,7 +22,7 @@ class IndexResponse(BaseModel):
 
 
 @router.post("/create-index", response_model=IndexResponse)
-def create_index():
+def create_index(collection: ChromaCollectionDep):
     try:
         with open(_KB_PATH) as f:
             documents = json.load(f)
