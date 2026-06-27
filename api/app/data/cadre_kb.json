@@ -1,0 +1,38 @@
+[
+  {
+    "id": "about_cadre",
+    "title": "What Cadre AI Does",
+    "content": "Cadre AI is an AI strategy and implementation consultancy. We help businesses move from AI confusion to AI confidence going department by department to identify high-ROI AI opportunities, build workflows and agents, and train teams so the changes actually stick.",
+    "category": "general"
+  },
+  {
+    "id": "target_audience",
+    "title": "Who Cadre AI Serves",
+    "content": "Cadre AI serves B2B companies, lower middle market private equity-backed companies, professional services firms, financial services organizations, real estate, construction, manufacturing, retail, and more.",
+    "category": "target_market"
+  },
+  {
+    "id": "booking_call",
+    "title": "How to Book a Strategy Call",
+    "content": "To book a strategy call with a Cadre AI strategist, the chatbot can escalate the conversation or direct the user to the scheduling coordinator. Strategy calls help identify high-ROI opportunities.",
+    "category": "escalation"
+  },
+  {
+    "id": "client_portal",
+    "title": "Accessing the Cadre Client Portal",
+    "content": "Existing clients can access the secure Cadre portal to track their active AI tools, running agentic workflows, and concrete ROI metrics. Contact your account lead if you need to reset credentials.",
+    "category": "support"
+  },
+  {
+    "id": "maturity_index",
+    "title": "The AI Maturity Index",
+    "content": "The AI Maturity Index is Cadre's proprietary framework to evaluate a business leader's organization framework. It scores corporate readiness across departments and builds a clear roadmap to get scored.",
+    "category": "services"
+  },
+  {
+    "id": "llm_security",
+    "title": "LLM Selection and Data Security",
+    "content": "Cadre AI partners with OpenAI, Anthropic (Claude), Google, Microsoft, AWS, Salesforce, and Snowflake, using OpenRouter for model access. We prioritize enterprise-grade data isolation and strict security architecture so client data is never used for training baseline models.",
+    "category": "security"
+  }
+]

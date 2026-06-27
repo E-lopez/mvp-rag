@@ -4,8 +4,8 @@
 
 ## Multi-Package Strategy
 This repository layers specific rules across separate directories. Do not load UI conventions into backend files.
-- See `@packages/api/CLAUDE.md` for api framework constraints.
-- See `@packages/ui/CLAUDE.md` for ui component standards.
+- See `@api/CLAUDE.md` for api framework constraints.
+- See `@ui/CLAUDE.md` for ui component standards.
 
 ## Universal Requirements
 - **Git Workflow:** Use descriptive branch names (`feature/`, `bugfix/`).

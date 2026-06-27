@@ -16,8 +16,6 @@ Run these commands from inside this subdirectory:
 - **Component Design:** Keep components short, self-contained, and highly presentation-focused. Abstract reusable elements early.
 - **State Management:** Use React Context combined with `useReducer` hooks for local or module-level global state. Write explicitly typed initial states and action mutations. Avoid deep prop-drilling beyond 1 level deep.
 
-## Testing Guidelines
-- **Scope:** Focus unit and integration tests primarily on parent orchestrator components, complex state hooks, and API service interactions.
-- **Run All Package Tests:** `pnpm test`
-- **Run Single Test File:** `pnpm test -- path/to/file.test.ts`
-- **Execution Rule:** Verify your modifications by running the corresponding test file before declaring a task complete.
+## Custom Commands
+- `/test-ui`: `npm test`
+- `/test-cov`: `vitest run --reporter verbose --coverage`

@@ -15,6 +15,8 @@ Run these commands from inside this subdirectory:
   * **Generative Synthesis and LLMaaJ:** Use `us.anthropic.claude-sonnet-4-6` via cross-region inference profiles.
   * **Topic Recognition:** Use `meta.llama3-8b-instruct-v1:0`
 - **Mocking:** Structure third-party HTTP integrations or downstream dependencies using standard `unittest.mock` fixtures inside `conftest.py`.
+- **Routing:** use a `main.py` entry-point that imports specific routers for subdomains from the folder `routers`
+- **Prompt Engineering:** explicit prompts are found at `api/prompts` grouped by domain, when creating new prompts use that folder and structure
 
 ## Coding Guidelines
 - **Naming Conventions:** Use lowercase `snake_case` for all Python function names, variables, files, and endpoint paths.
@@ -24,3 +26,8 @@ Run these commands from inside this subdirectory:
 
 ## Testing Guidelines
 - **Requirement:** Write comprehensive regression or unit tests under the `tests/` directory concurrently as new features or system routes are engineered.
+
+## Custom Commands
+- `/test-api`: `pytest`
+- `/test-endpoint`: `pytest tests/test_endpoints.py`
+- `run-api`: `uvicorn app.main:app --app-dir api --reload`
